@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VirtualfilesystemApplication {
+public class VirtualFilesystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VirtualfilesystemApplication.class, args);
+        SpringApplication.run(VirtualFilesystemApplication.class, args);
     }
 
 }
