@@ -33,5 +33,8 @@ public class FileSystemController {
     public String deleteFolder(@RequestParam String path) throws IOException {
         return fileSystemService.deleteFolder(path);
     }
-
+    @GetMapping("/tree")
+    public String showTree() throws IOException {
+        return fileSystemService.printTreeStructure();
+    }
 }

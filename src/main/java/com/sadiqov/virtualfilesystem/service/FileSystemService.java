@@ -23,15 +23,6 @@ public class FileSystemService {
         }
     }
 
-    public String createFile(String relativePath, String content) throws IOException {
-        Path filePath = Paths.get(rootPath, relativePath);
-        if (!Files.exists(filePath.getParent())) {
-            Files.createDirectories(filePath.getParent());
-        }
-        Files.writeString(filePath, content + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        return "Fayl yaradıldı: " + filePath;
-    }
-
     public String deleteFolder(String relativePath) throws IOException {
         Path folderPath = Paths.get(rootPath, relativePath);
         if (Files.exists(folderPath) && Files.isDirectory(folderPath)) {
@@ -50,6 +41,15 @@ public class FileSystemService {
         }
     }
 
+    public String createFile(String relativePath, String content) throws IOException {
+        Path filePath = Paths.get(rootPath, relativePath);
+        if (!Files.exists(filePath.getParent())) {
+            Files.createDirectories(filePath.getParent());
+        }
+        Files.writeString(filePath, content + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        return "Fayl yaradıldı: " + filePath;
+    }
+
     public String deleteFile(String relativePath) throws IOException {
         Path filePath = Paths.get(rootPath, relativePath);
         if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
@@ -58,5 +58,18 @@ public class FileSystemService {
         } else {
             return "Fayl tapılmadı və ya fayl deyil.";
         }
+    }
+
+    public String printTreeStructure() throws IOException {
+        Path start = Paths.get(rootPath);
+        StringBuilder builder = new StringBuilder();
+        Files.walk(start)
+                .forEach(path -> {
+                    int depth = start.relativize(path).getNameCount();
+                    String indent = " ".repeat(depth * 4);
+                    builder.append(indent).append(path.getFileName()).append("\n");
+                });
+
+        return builder.toString();
     }
 }
